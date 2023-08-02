@@ -131,7 +131,7 @@ def PPO(agent, args):
         b_values = values.reshape(-1)
 
         # Optimizing the policy and value network
-        b_inds = np.arange(args.batch_size)
+        b_inds = np.random.shuffle(np.arange(len(b_logprobs) if len(b_logprobs) < args.num_steps else args.num_steps))[:args.batch_size] ##fixed error in cleanrl's logic here -> they were only sampling from the first nbatch indices rather than randomly over all of the episodes
         clipfracs = []
         for epoch in range(args.update_epochs):
             np.random.shuffle(b_inds)
